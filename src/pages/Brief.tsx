@@ -1,6 +1,5 @@
-import { ATHLETE, SESSIONS, WEEKS } from "../data/program";
+import { SESSIONS, WEEKS } from "../data/program";
 import { daysUntilRace, formatLong, todayISO, weekFromDate } from "../data/dates";
-import { calorieTarget } from "../data/nutrition";
 import { exercisesFor } from "../data/workouts";
 import { getSession, setNav, type PageId } from "../lib/store";
 import { useStore } from "../lib/useStore";
@@ -12,7 +11,6 @@ export function Brief({ go }: { go: (page: PageId) => void }) {
   const week = weekFromDate(today);
   const days = daysUntilRace(today);
   const avg = weekAverage(week);
-  const fuel = calorieTarget(today);
   const next = SESSIONS.find((session) => !getSession(week, session.id).done) ?? SESSIONS[0];
   const nextEx = exercisesFor(next.id, week);
   const done = SESSIONS.filter((session) => getSession(week, session.id).done).length;
@@ -41,9 +39,7 @@ export function Brief({ go }: { go: (page: PageId) => void }) {
         <p>4 gym · 2 run · 1 rest · 5 weeks</p>
         <div className="hero-meta">
           <span>{formatLong(today)}</span>
-          <span>
-            {done}/6 this week
-          </span>
+          <span>{done}/6 this week</span>
         </div>
       </article>
 
@@ -56,25 +52,25 @@ export function Brief({ go }: { go: (page: PageId) => void }) {
 
       <div className="stat-row">
         <article>
-          <small>Calories</small>
-          <strong>{fuel.kcal.toLocaleString("en-AU")}</strong>
-          <span>{fuel.tag}</span>
+          <small>This week</small>
+          <strong>{done}/6</strong>
+          <span>sessions done</span>
         </article>
         <article>
-          <small>Protein</small>
-          <strong>{ATHLETE.proteinTarget}g</strong>
-          <span>daily lock</span>
+          <small>Week {week} avg</small>
+          <strong>{avg ? `${avg}` : "—"}</strong>
+          <span>kg</span>
         </article>
         <article>
-          <small>Weight</small>
-          <strong>{avg ? `${avg}` : String(ATHLETE.startKg)}</strong>
-          <span>kg avg</span>
+          <small>Block</small>
+          <strong>W{week}</strong>
+          <span>of 5</span>
         </article>
       </div>
 
       <h3 className="section-title">Program</h3>
       <div className="timeline">
-        {WEEKS.map((item, i) => (
+        {WEEKS.map((item) => (
           <button
             key={item.week}
             className={`time-card ${item.week === week ? "current" : ""} ${item.week < week ? "past" : ""}`}
@@ -84,7 +80,6 @@ export function Brief({ go }: { go: (page: PageId) => void }) {
             }}
           >
             <span className="dot">{item.week < week ? "✓" : item.week}</span>
-            {i < WEEKS.length - 1 ? <i className="line" /> : null}
             <div className="grow">
               <strong>
                 Week {item.week} · {item.name}

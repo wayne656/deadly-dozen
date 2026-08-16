@@ -1,7 +1,7 @@
 import { CHECKLIST, KPI_ROWS, type SessionId } from "../data/program";
 import { sessionKey, todayISO, weekFromDate } from "../data/dates";
 
-export type PageId = "brief" | "train" | "fuel" | "body" | "race";
+export type PageId = "brief" | "train" | "body" | "race";
 
 export type SessionLog = {
   date: string;
@@ -46,7 +46,10 @@ function loadState(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultState();
-    return { ...defaultState(), ...JSON.parse(raw) };
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    const loaded = { ...defaultState(), ...parsed } as AppState;
+    if (parsed.lastPage === "fuel") loaded.lastPage = "brief";
+    return loaded;
   } catch {
     return defaultState();
   }

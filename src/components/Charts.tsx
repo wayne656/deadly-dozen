@@ -13,8 +13,8 @@ export function WeightChart({ highlightWeek }: { highlightWeek?: number }) {
     return { date, value, day: i + 1 };
   }).filter((p) => p.value && Number.isFinite(p.value)) as { date: string; value: number; day: number }[];
 
-  if (points.length < 2) {
-    return <p className="muted">Log at least two morning weigh-ins to see the trend.</p>;
+  if (points.length < 1) {
+    return <p className="muted">Save your first morning weigh-in to start the trend line.</p>;
   }
 
   const values = points.map((p) => p.value);

@@ -1,4 +1,4 @@
-import { ATHLETE, ANALYTICS, CHECKLIST, KPI_ROWS } from "../data/program";
+import { ANALYTICS, CHECKLIST, KPI_ROWS } from "../data/program";
 import { getKpi, setKpi, toggleCheck } from "../lib/store";
 import { useStore } from "../lib/useStore";
 import { weekAverage } from "../components/Charts";
@@ -10,25 +10,7 @@ export function Race() {
     <section className="page">
       <p className="kicker">Melbourne · Saturday 19 Sept</p>
       <h1>Race week</h1>
-      <p className="lede">Taper volume, top glycogen, lock the doubles pacing plan. Fill KPIs as each week closes.</p>
-
-      <div className="grid grid-3" style={{ marginTop: 18 }}>
-        <article className="panel">
-          <small className="faint">SUN–WED TAPER</small>
-          <h3>Weekday 1,830 · Weekend 2,450</h3>
-          <p className="muted">Keep the split until Thursday.</p>
-        </article>
-        <article className="panel">
-          <small className="faint">THU 17 & FRI 18</small>
-          <h3>{ATHLETE.carbLoadKcal.toLocaleString("en-AU")} kcal</h3>
-          <p className="muted">Carb load. Low fibre, low fat, 390 g carbs, 155 g protein.</p>
-        </article>
-        <article className="panel">
-          <small className="faint">SAT 19 RACE</small>
-          <h3>{ATHLETE.raceDayKcal.toLocaleString("en-AU")} kcal</h3>
-          <p className="muted">Maintenance. Practised breakfast, gels as planned.</p>
-        </article>
-      </div>
+      <p className="lede">Taper volume, stay fresh, lock the doubles pacing plan. Fill KPIs as each week closes.</p>
 
       <h2 style={{ marginTop: 24 }}>Readiness checklist</h2>
       <div className="grid">
