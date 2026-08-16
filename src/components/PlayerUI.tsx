@@ -62,12 +62,14 @@ export function Stepper({
   step = 1,
   unit,
   min = 0,
+  compact = false,
 }: {
   value: string;
   onChange: (v: string) => void;
   step?: number;
   unit: string;
   min?: number;
+  compact?: boolean;
 }) {
   const n = Number(value);
   const current = Number.isFinite(n) ? n : 0;
@@ -77,7 +79,7 @@ export function Stepper({
   }
 
   return (
-    <div className="stepper">
+    <div className={`stepper ${compact ? "compact" : ""}`}>
       <button type="button" aria-label={`decrease ${unit}`} onClick={() => onChange(round(Math.max(min, current - step)))}>
         −
       </button>
@@ -87,7 +89,7 @@ export function Stepper({
         placeholder="0"
         onChange={(e) => onChange(e.target.value)}
       />
-      <em>{unit}</em>
+      {compact ? null : <em>{unit}</em>}
       <button type="button" aria-label={`increase ${unit}`} onClick={() => onChange(round(current + step))}>
         +
       </button>

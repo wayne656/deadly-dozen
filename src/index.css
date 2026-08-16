@@ -163,6 +163,31 @@ h2, h3 { margin: 0; }
   gap: 12px;
 }
 
+.player-top {
+  align-items: center;
+}
+
+.ex-count {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.clock {
+  color: var(--faint);
+  font-size: 13px;
+  margin: 8px 0 0;
+}
+
+.ex-title {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.ex-title h1 { font-size: 26px; }
+
 .count-chip, .pill {
   background: var(--card);
   border: 1px solid var(--line);
@@ -419,6 +444,200 @@ textarea { min-height: 80px; resize: vertical; }
   font-size: 12px;
   padding-right: 6px;
 }
+
+.stepper.compact {
+  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  border-radius: 10px;
+}
+
+.stepper.compact button {
+  height: 40px;
+  font-size: 18px;
+}
+
+.stepper.compact input {
+  font-size: 15px;
+  min-width: 0;
+}
+
+.set-head, .set-line {
+  display: grid;
+  gap: 6px;
+  align-items: center;
+}
+
+.set-head {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  padding: 0 4px;
+}
+
+.set-head.cols-3, .set-line.cols-3 { grid-template-columns: 28px minmax(0, 1fr) 44px; }
+.set-head.cols-4, .set-line.cols-4 { grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) 44px; }
+.set-head.cols-5, .set-line.cols-5 { grid-template-columns: 24px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 40px; }
+
+.set-line {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px;
+}
+
+.set-line.on { border-color: var(--ok); }
+
+.set-n {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: center;
+}
+
+.set-ghost {
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.tick {
+  width: 44px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card-2);
+  font-weight: 800;
+  color: var(--faint);
+}
+
+.tick.on {
+  background: var(--ok);
+  color: #04281a;
+  border-color: var(--ok);
+}
+
+.mus {
+  width: 28px;
+  height: 36px;
+  flex: 0 0 28px;
+  display: grid;
+}
+
+.mus svg { width: 100%; height: 100%; }
+.mus-on { fill: #5b8cff; }
+.mus-off { fill: #2a3654; }
+
+.up-next {
+  width: 100%;
+  margin-top: 16px;
+  background: var(--card);
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.up-next span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.up-next strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.up-next.last {
+  color: var(--muted);
+  margin: 16px 0 0;
+}
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 16, 0.88);
+  z-index: 35;
+  display: flex;
+  align-items: flex-end;
+}
+
+.sheet-card {
+  width: min(430px, 100%);
+  margin: 0 auto;
+  background: var(--card);
+  border-radius: 20px 20px 0 0;
+  padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+  max-height: 80dvh;
+  overflow: auto;
+}
+
+.sheet-list { display: grid; gap: 8px; margin-top: 12px; }
+
+.sheet-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px;
+}
+
+.sheet-row.on { border-color: var(--blue); }
+
+.sheet-jump {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  min-width: 0;
+}
+
+.sheet-jump em {
+  display: block;
+  font-style: normal;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.sheet-move { display: grid; gap: 4px; }
+
+.sheet-move button {
+  width: 32px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+
+.sheet-move button:disabled { opacity: 0.3; }
+
+.kpi-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.kpi-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.kpi-row:last-child { border-bottom: 0; }
+.kpi-row span { color: var(--muted); }
+.kpi-row strong { font-variant-numeric: tabular-nums; }
 
 .did {
   height: 48px;

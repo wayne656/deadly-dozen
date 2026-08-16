@@ -2,6 +2,8 @@ import { WEEKS, type SessionId } from "./program";
 
 export type ExKind = "strength" | "carry" | "superset" | "checks" | "interval" | "metrics" | "circuit";
 
+export type Muscle = "chest" | "back" | "shoulders" | "arms" | "core" | "quads" | "glutes" | "full" | "cardio" | "grip";
+
 export type ExerciseDef = {
   id: string;
   name: string;
@@ -11,12 +13,21 @@ export type ExerciseDef = {
   kind: ExKind;
   sets: number;
   target: string;
+  muscle: Muscle;
   kgKey?: string;
   repsKey?: string;
   extraKey?: string;
   extraLabel?: string;
   doneKey?: string;
 };
+
+export function applyOrder(list: ExerciseDef[], order?: string[]) {
+  if (!order?.length) return list;
+  const map = new Map(list.map((ex) => [ex.id, ex]));
+  const next = order.map((id) => map.get(id)).filter((ex): ex is ExerciseDef => Boolean(ex));
+  for (const ex of list) if (!order.includes(ex.id)) next.push(ex);
+  return next;
+}
 
 export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
   const strength = WEEKS[week - 1].strengthSets;
@@ -32,6 +43,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "strength",
         sets: strength,
         target: `${strength} × 6–8`,
+        muscle: "chest",
         kgKey: "bench",
         repsKey: "bench",
       },
@@ -43,6 +55,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "strength",
         sets: strength,
         target: `${strength} × 8–10`,
+        muscle: "back",
         kgKey: "row",
         repsKey: "row",
       },
@@ -54,6 +67,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "strength",
         sets: Math.min(strength, 3),
         target: `${Math.min(strength, 3)} × 8–10`,
+        muscle: "shoulders",
         kgKey: "ohp",
         repsKey: "ohp",
       },
@@ -66,6 +80,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "carry",
         sets: week === 5 ? 3 : 4,
         target: `${week === 5 ? 3 : 4} × 40m`,
+        muscle: "grip",
         kgKey: "farm",
         doneKey: "farm",
       },
@@ -78,6 +93,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "superset",
         sets: 3,
         target: "3 rounds",
+        muscle: "core",
         repsKey: "core",
         extraKey: "core",
         extraLabel: "Raises",
@@ -95,6 +111,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "interval",
         sets: intervals,
         target: `${intervals} × 400m`,
+        muscle: "cardio",
         repsKey: "r",
       },
     ];
@@ -110,6 +127,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "strength",
         sets: strength,
         target: `${strength} × 6–8`,
+        muscle: "quads",
         kgKey: "squat",
         repsKey: "squat",
       },
@@ -122,6 +140,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "strength",
         sets: strength,
         target: `${strength} × 12–15`,
+        muscle: "glutes",
         kgKey: "kbdl",
         repsKey: "kbdl",
       },
@@ -134,6 +153,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "strength",
         sets: 3,
         target: "3 × 20 steps",
+        muscle: "quads",
         kgKey: "lunge",
         repsKey: "lunge",
       },
@@ -145,6 +165,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "superset",
         sets: 3,
         target: "3 supersets",
+        muscle: "glutes",
         kgKey: "curl",
         repsKey: "curl",
         extraKey: "calf",
@@ -164,6 +185,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "checks",
         sets: 4,
         target: "4 × 15",
+        muscle: "shoulders",
         doneKey: "plate",
       },
       {
@@ -175,6 +197,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "checks",
         sets: 4,
         target: "4 × 10/side",
+        muscle: "full",
         kgKey: "snatch",
         doneKey: "snatch",
       },
@@ -187,6 +210,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "checks",
         sets: 4,
         target: "4 × 20",
+        muscle: "quads",
         kgKey: "goblet",
         doneKey: "goblet",
       },
@@ -199,6 +223,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "checks",
         sets: 4,
         target: "4 × 12–15",
+        muscle: "full",
         kgKey: "thruster",
         doneKey: "thruster",
       },
@@ -211,6 +236,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "checks",
         sets: 4,
         target: "4 × 20m",
+        muscle: "core",
         doneKey: "bear",
       },
       {
@@ -222,6 +248,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "checks",
         sets: 3,
         target: "3 × 8–10",
+        muscle: "full",
         kgKey: "devil",
         doneKey: "devil",
       },
@@ -238,6 +265,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
         kind: "metrics",
         sets: 1,
         target: "45–60 min",
+        muscle: "cardio",
       },
     ];
   }
@@ -251,6 +279,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
       kind: "circuit",
       sets: 3,
       target: "3 rounds",
+      muscle: "cardio",
     },
     {
       id: "dl",
@@ -261,6 +290,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
       kind: "circuit",
       sets: 3,
       target: "40 reps",
+      muscle: "glutes",
     },
     {
       id: "lunge",
@@ -271,6 +301,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
       kind: "circuit",
       sets: 3,
       target: "30 steps",
+      muscle: "quads",
     },
     {
       id: "goblet",
@@ -281,6 +312,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
       kind: "circuit",
       sets: 3,
       target: "40 reps",
+      muscle: "quads",
     },
     {
       id: "burpee",
@@ -291,6 +323,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
       kind: "circuit",
       sets: 3,
       target: "20 reps",
+      muscle: "full",
     },
     {
       id: "carry",
@@ -301,6 +334,7 @@ export function exercisesFor(session: SessionId, week: number): ExerciseDef[] {
       kind: "circuit",
       sets: 3,
       target: "60m",
+      muscle: "grip",
     },
   ];
 }

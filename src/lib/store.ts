@@ -1,4 +1,4 @@
-import { CHECKLIST, KPI_ROWS, type SessionId } from "../data/program";
+import { CHECKLIST, type SessionId } from "../data/program";
 import { sessionKey, todayISO, weekFromDate } from "../data/dates";
 
 export type PageId = "brief" | "train" | "body" | "race";
@@ -9,6 +9,7 @@ export type SessionLog = {
   notes: string;
   fields: Record<string, string>;
   done: boolean;
+  order: string[];
 };
 
 export type AppState = {
@@ -25,7 +26,7 @@ export type AppState = {
 const STORAGE_KEY = "dd-plan-v1";
 
 function emptySession(): SessionLog {
-  return { date: todayISO(), energy: "", notes: "", fields: {}, done: false };
+  return { date: todayISO(), energy: "", notes: "", fields: {}, done: false, order: [] };
 }
 
 function defaultState(): AppState {
@@ -81,7 +82,9 @@ export function setWeight(date: string, value: string) {
 }
 
 export function getSession(week: number, id: SessionId): SessionLog {
-  return state.sessions[sessionKey(week, id)] ?? emptySession();
+  const saved = state.sessions[sessionKey(week, id)];
+  if (!saved) return emptySession();
+  return { ...emptySession(), ...saved, fields: saved.fields ?? {}, order: saved.order ?? [] };
 }
 
 export function patchSession(week: number, id: SessionId, patch: Partial<SessionLog>) {
@@ -91,7 +94,12 @@ export function patchSession(week: number, id: SessionId, patch: Partial<Session
     ...state,
     sessions: {
       ...state.sessions,
-      [key]: { ...current, ...patch, fields: patch.fields ?? current.fields },
+      [key]: {
+        ...current,
+        ...patch,
+        fields: patch.fields ?? current.fields,
+        order: patch.order ?? current.order ?? [],
+      },
     },
   };
   persist();
@@ -136,4 +144,6 @@ export function setNav(
   persist();
 }
 
-export const KPI_KEYS = KPI_ROWS.map((row) => row.key);
+export function setSessionOrder(week: number, id: SessionId, order: string[]) {
+  patchSession(week, id, { order });
+}
