@@ -109,9 +109,9 @@ export const SESSIONS: {
   {
     id: "F",
     kind: "gym",
-    name: "Full Deadly Dozen Simulation",
-    short: "3-round race circuit",
-    focus: "Solo Doubles sim: 400m runs paired with 1:1 rest-matched exact station reps.",
+    name: "Gym Race Circuit",
+    short: "Treadmill + mat circuit",
+    focus: "Anytime-friendly Doubles sim: treadmill 400s, then in-place labour stations from one KB/DB/plate setup.",
   },
 ];
 
